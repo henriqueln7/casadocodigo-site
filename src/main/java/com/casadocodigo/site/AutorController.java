@@ -1,12 +1,14 @@
 package com.casadocodigo.site;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @Controller
 public class AutorController {
@@ -21,10 +23,13 @@ public class AutorController {
 
     @PostMapping("/autores")
     @Transactional
-    public void novoAutor(NovoAutorForm form) {
+    public String novoAutor(@Valid NovoAutorForm form, Errors errors) {
+        if (errors.hasErrors()) {
+            return "autor/cadastro-autor";
+        }
         final Autor novoAutor = form.toEntity();
         manager.persist(novoAutor);
-        System.out.println("Salvo com sucesso :)");
+        return "autor/cadastro-autor";
     }
 
 }
