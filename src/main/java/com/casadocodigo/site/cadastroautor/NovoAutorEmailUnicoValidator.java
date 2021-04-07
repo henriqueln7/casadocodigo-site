@@ -1,20 +1,19 @@
 package com.casadocodigo.site.cadastroautor;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import java.util.List;
+import java.util.Optional;
 
 @Component
 public class NovoAutorEmailUnicoValidator implements Validator {
 
-    @PersistenceContext
-    private EntityManager manager;
+    private final AutorRepository autorRepository;
+
+    public NovoAutorEmailUnicoValidator(AutorRepository autorRepository) {
+        this.autorRepository = autorRepository;
+    }
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -29,10 +28,10 @@ public class NovoAutorEmailUnicoValidator implements Validator {
 
         NovoAutorForm novoAutorForm = (NovoAutorForm) target;
 
-        TypedQuery<Autor> query = manager.createQuery("SELECT a FROM Autor a WHERE a.email = :email", Autor.class).setParameter("email", novoAutorForm.getEmail());
-        List<Autor> autoresComMesmoEmail = query.getResultList();
-        Assert.state(autoresComMesmoEmail.size() <= 1, "#BUG Mais de um autor cadastrado com o mesmo email");
-        if (!autoresComMesmoEmail.isEmpty()) {
+        String email = novoAutorForm.getEmail();
+        boolean autorJaExiste = autorRepository.findByEmail(email).isPresent();
+
+        if (autorJaExiste) {
             errors.rejectValue("email", "novoautor.email.existente", "Já existe um autor cadastrado com esse email. Será que você esqueceu a senha?");
         }
     }
