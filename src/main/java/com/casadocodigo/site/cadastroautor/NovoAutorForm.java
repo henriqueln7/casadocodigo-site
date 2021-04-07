@@ -1,10 +1,10 @@
-package com.casadocodigo.site;
+package com.casadocodigo.site.cadastroautor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-class NovoAutorForm {
+public class NovoAutorForm {
     @NotBlank
     private final String nome;
     @NotBlank

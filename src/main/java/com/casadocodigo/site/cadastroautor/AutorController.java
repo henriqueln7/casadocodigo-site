@@ -1,4 +1,4 @@
-package com.casadocodigo.site;
+package com.casadocodigo.site.cadastroautor;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;

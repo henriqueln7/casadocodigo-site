@@ -1,12 +1,14 @@
-package com.casadocodigo.site;
+package com.casadocodigo.site.cadastroautor;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Component
 public class NovoAutorEmailUnicoValidator implements Validator {
@@ -28,8 +30,9 @@ public class NovoAutorEmailUnicoValidator implements Validator {
         NovoAutorForm novoAutorForm = (NovoAutorForm) target;
 
         TypedQuery<Autor> query = manager.createQuery("SELECT a FROM Autor a WHERE a.email = :email", Autor.class).setParameter("email", novoAutorForm.getEmail());
-        boolean autorJaExiste = query.getSingleResult() != null;
-        if (autorJaExiste) {
+        List<Autor> autoresComMesmoEmail = query.getResultList();
+        Assert.state(autoresComMesmoEmail.size() <= 1, "#BUG Mais de um autor cadastrado com o mesmo email");
+        if (!autoresComMesmoEmail.isEmpty()) {
             errors.rejectValue("email", "novoautor.email.existente", "Já existe um autor cadastrado com esse email. Será que você esqueceu a senha?");
         }
     }

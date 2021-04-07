@@ -1,4 +1,4 @@
-package com.casadocodigo.site;
+package com.casadocodigo.site.cadastroautor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
