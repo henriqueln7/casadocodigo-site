@@ -7,21 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @Controller
 public class AutorController {
 
-    @PersistenceContext
-    private EntityManager manager;
+    private final AutorRepository autorRepository;
 
     private final NovoAutorEmailUnicoValidator novoAutorEmailUnicoValidator;
 
-    public AutorController(NovoAutorEmailUnicoValidator novoAutorEmailUnicoValidator) {
+    public AutorController(NovoAutorEmailUnicoValidator novoAutorEmailUnicoValidator, AutorRepository autorRepository) {
         this.novoAutorEmailUnicoValidator = novoAutorEmailUnicoValidator;
+        this.autorRepository = autorRepository;
     }
 
     @InitBinder("novoAutorForm")
@@ -41,8 +39,8 @@ public class AutorController {
             return "autor/cadastro-autor";
         }
         final Autor novoAutor = form.toEntity();
-        manager.persist(novoAutor);
-        return "autor/cadastro-autor";
+        autorRepository.save(novoAutor);
+        return "redirect:/autores/novo";
     }
 
 }
