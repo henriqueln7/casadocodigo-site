@@ -8,64 +8,6 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cadastro de Autor</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-        }
-
-        .form-autor {
-        }
-
-        .form-autor .field {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-autor .field label {
-            font-size: 18px;
-            margin: 0.3rem;
-        }
-
-        .form-autor .inline-field {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .form-autor .field input {
-            padding: 0.2rem;
-        }
-
-
-        .form-autor .input-field {
-            display: flex;
-            justify-content: center;
-        }
-        .form-autor .input-field input[type="submit"] {
-            border-radius: 8px;
-            text-align: center;
-            padding: 0.6rem;
-            justify-content: center;
-            margin-top: 1rem;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .form-erro {
-            color: #ff0000;
-            font-size: 16px;
-        }
-
-        .form-erro::first-letter {
-            text-transform: capitalize;
-        }
-    </style>
 </head>
 <body>
 <section class="container">
