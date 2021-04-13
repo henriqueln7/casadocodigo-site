@@ -6,15 +6,16 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 @Controller
 public class CategoriaController {
 
-    @PersistenceContext
-    private EntityManager manager;
+    private final CategoriaRepository categoriaRepository;
+
+    public CategoriaController(CategoriaRepository categoriaRepository) {
+        this.categoriaRepository = categoriaRepository;
+    }
 
     @GetMapping("/categorias/novo")
     public String mostraFormCadastro() {
@@ -24,11 +25,16 @@ public class CategoriaController {
     @PostMapping("/categorias")
     @Transactional
     public String cadastra(@Valid NovaCategoriaRequest request, Errors errors) {
+        if (categoriaRepository.findByNome(request.getNome()).isPresent()) {
+            errors.rejectValue("nome", "", "Essa categoria ja esta registrada");
+        }
+
         if (errors.hasErrors()) {
             return mostraFormCadastro();
         }
+
         Categoria novaCategoria = new Categoria(request.getNome());
-        manager.persist(novaCategoria);
+        categoriaRepository.save(novaCategoria);
         return "redirect:/categorias/novo";
     }
 }
