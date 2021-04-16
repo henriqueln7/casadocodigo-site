@@ -53,4 +53,21 @@ class CategoriaControllerTest {
                .andExpect(view().name("categoria/novo"))
                .andExpect(model().hasErrors());
     }
+
+    @Test
+    @DisplayName("Nao deve cadastrar categoria se o nome eh duplicado")
+    void naoDeveCadastrarCategoriaSeONomeEhDuplicado() throws Exception {
+        String nomeCategoriaDuplicado = "Mobile";
+        // Esse deve ser cadastrado normalmente
+        mockMvc.perform(post("/categorias")
+                                .contentType(APPLICATION_FORM_URLENCODED)
+                                .param("nome", nomeCategoriaDuplicado))
+               .andReturn();
+        // Esse deve dar erro pois a categoria "Mobile" já foi cadastrada
+        mockMvc.perform(post("/categorias")
+                                .contentType(APPLICATION_FORM_URLENCODED)
+                                .param("nome", nomeCategoriaDuplicado))
+               .andExpect(view().name("categoria/novo"))
+               .andExpect(model().hasErrors());
+    }
 }
