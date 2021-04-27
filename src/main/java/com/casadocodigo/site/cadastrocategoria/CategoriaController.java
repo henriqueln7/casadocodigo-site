@@ -25,11 +25,6 @@ public class CategoriaController {
     @PostMapping("/categorias")
     @Transactional
     public String novaCategoria(@Valid NovaCategoriaForm form, Errors errors) {
-        boolean nomeCategoriaJaExiste = categoriaRepository.findByNome(form.getNome()).isPresent();
-        if (nomeCategoriaJaExiste) {
-            errors.rejectValue("nome", "", "Essa categoria ja esta registrada");
-        }
-
         if (errors.hasErrors()) {
             return exibePaginaCadastro();
         }

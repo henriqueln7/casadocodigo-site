@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 class NovaCategoriaForm {
     @NotBlank
+    @UniqueValue(fieldName = "nome", domainClass = Categoria.class)
     private String nome;
 
     public String getNome() {
