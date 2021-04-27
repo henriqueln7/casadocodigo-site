@@ -18,20 +18,20 @@ public class CategoriaController {
     }
 
     @GetMapping("/categorias/novo")
-    public String mostraFormCadastro() {
+    public String exibePaginaCadastro() {
         return "categoria/novo";
     }
 
     @PostMapping("/categorias")
     @Transactional
-    public String cadastra(@Valid NovaCategoriaRequest request, Errors errors) {
+    public String novaCategoria(@Valid NovaCategoriaForm request, Errors errors) {
         boolean nomeCategoriaJaExiste = categoriaRepository.findByNome(request.getNome()).isPresent();
         if (nomeCategoriaJaExiste) {
             errors.rejectValue("nome", "", "Essa categoria ja esta registrada");
         }
 
         if (errors.hasErrors()) {
-            return mostraFormCadastro();
+            return exibePaginaCadastro();
         }
 
         Categoria novaCategoria = new Categoria(request.getNome());

@@ -36,7 +36,7 @@ public class AutorController {
     @Transactional
     public String novoAutor(@Valid NovoAutorForm form, Errors errors) {
         if (errors.hasErrors()) {
-            return "autor/cadastro-autor";
+            return exibePaginaCadastro();
         }
         final Autor novoAutor = form.toEntity();
         autorRepository.save(novoAutor);

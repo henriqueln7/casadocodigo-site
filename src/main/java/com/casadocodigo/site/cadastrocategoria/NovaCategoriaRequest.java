@@ -2,7 +2,7 @@ package com.casadocodigo.site.cadastrocategoria;
 
 import javax.validation.constraints.NotBlank;
 
-class NovaCategoriaForm
+class NovaCategoriaForm {
     @NotBlank
     private String nome;
 
