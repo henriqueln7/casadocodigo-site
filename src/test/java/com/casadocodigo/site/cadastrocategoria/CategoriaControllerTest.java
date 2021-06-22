@@ -6,9 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,7 +44,8 @@ class CategoriaControllerTest {
                                 .contentType(APPLICATION_FORM_URLENCODED)
                                 .param("nome", "Nova categoria"))
                .andExpect(status().is3xxRedirection())
-               .andExpect(header().stringValues("Location", "/categorias/novo"));
+               .andExpect(header().stringValues("Location", "/categorias/novo"))
+               .andExpect(flash().attributeExists("alertaCategoriaSalva"));
 
         verify(categoriaRepository).save(new Categoria("Nova categoria")); // Aqui não utilizei o any(Categoria.class) para me garantir que a categoria passada como argumento possui o mesmo nome que passei na requisição.
     }

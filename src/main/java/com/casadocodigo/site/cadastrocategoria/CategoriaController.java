@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -24,13 +25,14 @@ public class CategoriaController {
 
     @PostMapping("/categorias")
     @Transactional
-    public String novaCategoria(@Valid NovaCategoriaForm form, Errors errors) {
+    public String novaCategoria(@Valid NovaCategoriaForm form, Errors errors, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
             return exibePaginaCadastro();
         }
 
         Categoria novaCategoria = new Categoria(form.getNome());
         categoriaRepository.save(novaCategoria);
+        attributes.addFlashAttribute("alertaCategoriaSalva", "Categoria salva com sucesso");
         return "redirect:/categorias/novo";
     }
 }
