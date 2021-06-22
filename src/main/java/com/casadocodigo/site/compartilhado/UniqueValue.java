@@ -1,4 +1,4 @@
-package com.casadocodigo.site.cadastrocategoria;
+package com.casadocodigo.site.compartilhado;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

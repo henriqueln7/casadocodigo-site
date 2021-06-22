@@ -1,5 +1,7 @@
 package com.casadocodigo.site.cadastrocategoria;
 
+import com.casadocodigo.site.compartilhado.UniqueValue;
+
 import javax.validation.constraints.NotBlank;
 
 class NovaCategoriaForm {
