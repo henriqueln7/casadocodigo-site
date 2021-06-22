@@ -32,7 +32,7 @@ public class CategoriaController {
 
         Categoria novaCategoria = new Categoria(form.getNome());
         categoriaRepository.save(novaCategoria);
-        attributes.addFlashAttribute("alertaCategoriaSalva", "Categoria salva com sucesso");
+        attributes.addFlashAttribute("alertaCategoriaSalva", "Nova categoria " + novaCategoria.getNome());
         return "redirect:/categorias/novo";
     }
 }
