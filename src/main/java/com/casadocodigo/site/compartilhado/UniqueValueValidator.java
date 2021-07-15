@@ -1,13 +1,11 @@
 package com.casadocodigo.site.compartilhado;
 
-import org.springframework.util.Assert;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.List;
 
 public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Object> {
 
@@ -26,12 +24,10 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Ob
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-        Query query = manager.createQuery(String.format("SELECT 1 FROM %s WHERE %s =: value", domainClass.getName(), fieldName)).setParameter("value", value);
+        TypedQuery<Boolean> query = manager.createQuery(String.format("SELECT count(1) > 0 FROM %s WHERE %s =: value", domainClass.getName(), fieldName), Boolean.class)
+                                  .setParameter("value", value);
 
-        List<?> queryResultList = query.getResultList();
-
-        Assert.state(queryResultList.size() <= 1, String.format("#BUG Mais de um %s com o atributo %s = %s", domainClass.getName(), fieldName, value));
-
-        return queryResultList.isEmpty();
+        Boolean valueAlreadyExists = query.getSingleResult();
+        return !valueAlreadyExists;
     }
 }
